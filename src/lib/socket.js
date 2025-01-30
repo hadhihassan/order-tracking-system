@@ -1,42 +1,71 @@
 import { Server } from "socket.io";
 import http from "http";
 import express from "express";
+import { verifyToken } from "./utils.js";
+import { handleSocketEvents } from "./events.js";
 
 const app = express();
 const server = http.createServer(app);
 
 const io = new Server(server, {
     cors: {
-        origin: ["http://localhost:5173"],
+        origin: '*',
     },
 });
 
-const userSocketMap = {};
+const customersSocketMap = {};
 const driverSocketMap = {};
 
-export function getReceiverSocketId(userId) {
-    return userSocketMap[userId]
+export function getDriverSocketId(userId) {
+    return driverSocketMap  [userId]
 }
 
-io.on("connection", (socket) => {
-    console.log("A user connected", socket.id);
+export function getCustomerSocketId(userId) {
+    return customersSocketMap[userId]
+}
 
-    if(socket.handshake.query.role === "deliveryMan"){
-        const userId = socket.handshake.query.userId;
-        if (userId) driverSocketMap[userId] = socket.id;
-    }else{
-        const userId = socket.handshake.query.userId;
-        if (userId) userSocketMap[userId] = socket.id;
-    }
-
-    console.log(userSocketMap)
-
-    socket.on("disconnect", () => {
-        console.log("A user disconnected", socket.id);
-        delete userSocketMap[userId];
-        io.emit('getOnlinUsers', Object.keys(userSocketMap))
+export function initializeSocket(server) {
+    const io = new Server(server, {
+        cors: {
+            origin: ["http://localhost:5173"],
+        },
     });
-    
-});
 
-export { io, app, server };
+    io.use((socket, next) => {
+        const token = socket.handshake.query?.token;
+        if (!token) {
+            return next(new Error("Authentication error: No token provided"));
+        }
+
+        try {
+            const decoded = verifyToken(token);
+            console.log("decoded", decoded)
+            socket.user = decoded;
+            next();
+        } catch (error) {
+            next(new Error("Authentication error: Invalid token"));
+        }
+    });
+
+    io.on("connection", (socket) => {
+
+        console.log("A user connected", socket.id);
+
+        const userId = socket.handshake.query.userId;
+
+        if (socket.user.role === "deliveryMan") {
+            if (userId) driverSocketMap[userId] = socket.id;
+            socket.join("drivers");
+        } else {
+            if (userId) customersSocketMap[userId] = socket.id;
+            socket.join("customers");
+        }
+
+        console.log("User Socket Map:", customersSocketMap);
+        console.log("Driver Socket Map:", driverSocketMap);
+
+        handleSocketEvents(io, socket, customersSocketMap, driverSocketMap, userId);
+    });
+
+    return io;
+}
