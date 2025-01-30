@@ -17,7 +17,7 @@ const customersSocketMap = {};
 const driverSocketMap = {};
 
 export function getDriverSocketId(userId) {
-    return driverSocketMap  [userId]
+    return driverSocketMap[userId]
 }
 
 export function getCustomerSocketId(userId) {
@@ -39,7 +39,6 @@ export function initializeSocket(server) {
 
         try {
             const decoded = verifyToken(token);
-            console.log("decoded", decoded)
             socket.user = decoded;
             next();
         } catch (error) {
@@ -61,10 +60,10 @@ export function initializeSocket(server) {
             socket.join("customers");
         }
 
-        console.log("User Socket Map:", customersSocketMap);
-        console.log("Driver Socket Map:", driverSocketMap);
+        // console.log("User Socket Map:", customersSocketMap);
+        // console.log("Driver Socket Map:", driverSocketMap);
 
-        handleSocketEvents(io, socket, customersSocketMap, driverSocketMap, userId);
+        handleSocketEvents(io, socket);
     });
 
     return io;

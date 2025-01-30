@@ -11,6 +11,10 @@ const orderSchema = new mongoose.Schema({
         ref: 'User',
         default: null
     },
+    rejectedBy: [{
+        driverId: String,
+        reason: String,
+    }],
     items: {
         type: [String],
         required: true
@@ -21,7 +25,7 @@ const orderSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['placed', 'accepted', 'preparing', 'out for delivery', 'delivered'],
+        enum: ['placed', 'accepted', 'reject', 'preparing', 'outForDelivery', 'delivered'],
         default: 'placed',
     },
     createdAt: { type: Date, default: Date.now },
