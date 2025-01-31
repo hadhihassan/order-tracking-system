@@ -67,7 +67,7 @@ JWT_EXPIRES=your_jwt_token_expires_time
     ```bash
     npm test
 
-## Environment Variables
+## Architecture and Design Choices
 
 1. **System Architecture**: 
    - **WebSocket Server**:
@@ -79,23 +79,19 @@ JWT_EXPIRES=your_jwt_token_expires_time
   - **Authentication**:
       - **JWT** for secure WebSocket and API authentication.
 
-2. **Design Choices**:
 
+2. **Design Choices**:
   **Socket.IO**:
 	  - Socket.IO simplifies handling reconnections, fallbacks to long polling, and room   
       management.
-
   **JWT Authentication**:
 	  - Stateless, scalable, and secure. Tokens are validated on every WebSocket connection.
 	  - Implementation: Tokens passed via query parameters during WebSocket handshake.
-
   **MongoDB for Orders**:
 	  - Flexible schema for evolving order data (e.g., adding rejection reasons).
 	  - Indexing: Indexes on userId, driverId, and status for fast querying.
-
   **Rate Limiting**:
 	  - Prevent abuse (e.g., too many connection attempts or order placements).
 	  - Library: rate-limiter-flexible for Socket.IO and express-rate-limit for REST APIs.
-
   **Stateless Design**:
 	  - Simplifies scaling. All state is stored in MongoDB/Redis, not in server memory.
