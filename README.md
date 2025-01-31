@@ -66,3 +66,36 @@ JWT_EXPIRES=your_jwt_token_expires_time
 3. Run the tests:
     ```bash
     npm test
+
+## Environment Variables
+
+1. **System Architecture**: 
+   - **WebSocket Server**:
+      - Built with **Node.js** and **Socket.IO** for real-time bidirectional communication.
+      - **Express.js** for optional **REST API** endpoints.
+  - **Database**:
+      - **MongoDB** is used to store orders, user/driver data, and order history.
+      - Chosen for its flexibility with time-series data and scalability.
+  - **Authentication**:
+      - **JWT** for secure WebSocket and API authentication.
+
+2. **Design Choices**:
+
+  **Socket.IO**:
+	  - Socket.IO simplifies handling reconnections, fallbacks to long polling, and room   
+      management.
+
+  **JWT Authentication**:
+	  - Stateless, scalable, and secure. Tokens are validated on every WebSocket connection.
+	  - Implementation: Tokens passed via query parameters during WebSocket handshake.
+
+  **MongoDB for Orders**:
+	  - Flexible schema for evolving order data (e.g., adding rejection reasons).
+	  - Indexing: Indexes on userId, driverId, and status for fast querying.
+
+  **Rate Limiting**:
+	  - Prevent abuse (e.g., too many connection attempts or order placements).
+	  - Library: rate-limiter-flexible for Socket.IO and express-rate-limit for REST APIs.
+
+  **Stateless Design**:
+	  - Simplifies scaling. All state is stored in MongoDB/Redis, not in server memory.
