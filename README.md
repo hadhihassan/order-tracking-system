@@ -98,8 +98,7 @@ JWT_EXPIRES=your_jwt_token_expires_time
 
 ## Scaling Strategies for 10k+ Users
 
-### Horizontal Scaling
-
+- Horizontal Scaling
       1. **Load Balancing**:
            - Deploy multiple instances of the WebSocket server behind a load balancer (e.g., NGINX, AWS ALB).
       2. **Redis Pub/Sub**:
