@@ -87,10 +87,25 @@ JWT_EXPIRES=your_jwt_token_expires_time
        - Stateless, scalable, and secure. Tokens are validated on every WebSocket connection.
        - Implementation: Tokens passed via query parameters during WebSocket handshake.
    - **MongoDB for Orders**:
-       - Flexible schema for evolving order data (e.g., adding rejection updating).
+       - Flexible schema for evolving order data.
        - Indexing: Indexes on userId and driverId for fast querying.
    - **Rate Limiting**:
        - Prevent abuse (e.g., too many connection attempts or order placements).
        - Library: rate-limiter-flexible for Socket.IO and express-rate-limit for REST APIs.
    - **Stateless Design**:
        - Simplifies scaling. All state is stored in MongoDB.
+
+
+## Scaling Strategies for 10k+ Users
+   ###Horizontal Scaling
+      1. **Load Balancing**:
+           - Deploy multiple instances of the WebSocket server behind a load balancer (e.g., NGINX, AWS ALB).
+      2. **Redis Pub/Sub**:
+           - Use Redis to broadcast messages across all server instances.
+      3. **Database Scaling**:
+           - MongoDB Sharding: Distribute data across multiple shards based on order ID or user region.
+           - Read Replicas: Offload read-heavy operations.
+      4. **Rate Limiting**:
+           - Global rate limiting Redis to track requests across instances.
+      5. **Deployment Strategies**:
+           - Use Kubernetes for auto-scaling
