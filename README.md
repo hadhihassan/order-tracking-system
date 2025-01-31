@@ -99,14 +99,14 @@ JWT_EXPIRES=your_jwt_token_expires_time
 ## Scaling Strategies for 10k+ Users
 
 - Horizontal Scaling
-      1. **Load Balancing**:
-           - Deploy multiple instances of the WebSocket server behind a load balancer (e.g., NGINX, AWS ALB).
-      2. **Redis Pub/Sub**:
-           - Use Redis to broadcast messages across all server instances.
-      3. **Database Scaling**:
-           - MongoDB Sharding: Distribute data across multiple shards based on order ID or user region.
-           - Read Replicas: Offload read-heavy operations.
-      4. **Rate Limiting**:
-           - Global rate limiting Redis to track requests across instances.
-      5. **Deployment Strategies**:
-           - Use Kubernetes for auto-scaling
+  1. **Load Balancing**:
+       - Deploy multiple instances of the WebSocket server behind a load balancer (e.g., NGINX, AWS ALB).
+  2. **Redis Pub/Sub**:
+       - Use Redis to broadcast messages across all server instances.
+  3. **Database Scaling**:
+       - MongoDB Sharding: Distribute data across multiple shards based on order ID or user region.
+       - Read Replicas: Offload read-heavy operations.
+  4. **Rate Limiting**:
+       - Global rate limiting Redis to track requests across instances.
+  5. **Deployment Strategies**:
+       - Use Kubernetes for auto-scaling.
