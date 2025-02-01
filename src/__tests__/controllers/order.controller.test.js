@@ -4,18 +4,15 @@ import Order from "../../models/order.model.js";
 import { connectDatabase } from "../../lib/connectDatabase.js";
 import mongoose from "mongoose";
 
-// Mock the Order model
 jest.mock("../../models/order.model.js");
 
-// Mock the verifyToken function
 jest.mock("../../lib/utils.js", () => ({
     verifyToken: jest.fn().mockReturnValue({ userId: "user1" }),
 }));
 
-// Mock the protectRoute middleware
 jest.mock("../../middleware/auth.middleware.js", () => ({
     protectRoute: (req, res, next) => {
-        req.user = { _id: "user1" }; // Simulate a valid user
+        req.user = { _id: "user1" }; 
         next();
     },
 }));

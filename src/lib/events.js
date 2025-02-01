@@ -87,7 +87,7 @@ export function handleSocketEvents(io, socket) {
 
     socket.on("disconnect", () => {
         console.log("A user disconnected", socket.id);
-        const userId = socket.handshake.query.userId;
+        const userId = socket.user.userId;
 
         if (socket.user.role === "deliveryMan") {
             socket.join("drivers");
