@@ -1,0 +1,25 @@
+version: "3.5"
+
+
+services:
+  app:
+    container_name: order-tracking-app
+    build: .
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URL=mongodb://127.0.0.1:27017/Order-tracking
+    restart: always
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    restart: always
+
+volumes:
+  mongo_data:

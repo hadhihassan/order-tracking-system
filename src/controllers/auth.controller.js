@@ -5,7 +5,7 @@ import User from "../models/user.model.js";
 export const signup = async (req, res) => {
     const { fullName, email, password, role } = req.body;
     try {
-        if (!fullName || !email || !password) {
+        if (!fullName || !email ) {
             return res.status(400).json({ message: "All fields are required" });
         }
 
@@ -28,7 +28,6 @@ export const signup = async (req, res) => {
         });
 
         if (newUser) {
-            // generate jwt token here
             generateToken(newUser._id, res, role);
             await newUser.save();
 

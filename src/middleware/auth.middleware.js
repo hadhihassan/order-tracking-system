@@ -6,7 +6,6 @@ import { verifyToken } from '../lib/utils.js';
 export const protectRoute = async (req,res,next) => {
     try {
         const token = req.cookies.jwt;
-        console.log('token', token)
         if (!token) {
             return res.status(401).json({
                 message: "Unauthorized user Access. No token provided."
@@ -14,7 +13,6 @@ export const protectRoute = async (req,res,next) => {
         }
 
         const decoded = verifyToken(token);
-        console.log(decoded)
         if (!decoded) {
             return res.status(401).json({
                 message: "Unauthorized user Access. No token provided."

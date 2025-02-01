@@ -13,9 +13,7 @@ export function handleSocketEvents(io, socket) {
                 items: orderData.items
             });
             await order.save();
-            console.log("Order placed:", order);
 
-            // Notify all drivers about the new order
             io.to("drivers").emit("newOrder", order);
         } catch (error) {
             console.error("Error placing order:", error);
@@ -40,7 +38,6 @@ export function handleSocketEvents(io, socket) {
                 io.to(getCustomerSocketId(order.userId)).emit("orderAccepted", order);
                 io.to(getCustomerSocketId(order.driverId)).emit("orderAccepted", order);
 
-                // Notify that the spesicif order is accepted other deliveryMan
                 socket.broadcast.to('drivers').emit('removeOrder', { orderId: order._id });
             }
         } catch (error) {
@@ -82,17 +79,14 @@ export function handleSocketEvents(io, socket) {
                 io.to(driverSocketId).emit("orderStatusUpdated", { orderId, status });
             }
 
-            console.log(`Order ${orderId} status updated to ${status}`);
         } catch (error) {
             console.error("Error updating order status:", error);
             return io.to(getCustomerSocketId(socket.user.userId)).emit("orderError", { message: "Failed to update order status" })
         }
     })
 
-    // Handle disconnection
     socket.on("disconnect", () => {
         console.log("A user disconnected", socket.id);
-
         const userId = socket.handshake.query.userId;
 
         if (socket.user.role === "deliveryMan") {

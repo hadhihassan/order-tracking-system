@@ -60,9 +60,6 @@ export function initializeSocket(server) {
             socket.join("customers");
         }
 
-        // console.log("User Socket Map:", customersSocketMap);
-        // console.log("Driver Socket Map:", driverSocketMap);
-
         handleSocketEvents(io, socket);
     });
 
