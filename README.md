@@ -53,6 +53,7 @@ MONGO_URL=your_mongodb_coonect_url
 
 JWT_SECRET_KEY=your_jwt_secret_key
 JWT_EXPIRES=your_jwt_token_expires_time
+NODE_ENV=development
 
 ```
 ## Testing Setup
@@ -62,7 +63,7 @@ JWT_EXPIRES=your_jwt_token_expires_time
    cd order-tracking-system
 2. Install testing dependencies:
    ```bash
-    npm install --save-dev jest
+    npm install --save-dev jest supertest
 3. Run the tests:
     ```bash
     npm test
