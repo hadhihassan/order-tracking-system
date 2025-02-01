@@ -37,7 +37,7 @@ describe("Auth Controller", () => {
         server.close();
     });
 
-    describe("POST /api/auth/signup", () => {
+    describe("signup POST /api/auth/signup", () => {
         it("should create a new user with valid inputs", async () => {
 
             const res = await request(server)
@@ -122,7 +122,7 @@ describe("Auth Controller", () => {
         });
     });
 
-    describe("Login", () => {
+    describe("Login POST /api/auth/login", () => {
         it("should login with valid credentials", async () => {
             jest.spyOn(User, "findOne").mockResolvedValue(mockUser);
             compareHashedPassword.mockResolvedValue(true);
@@ -179,7 +179,7 @@ describe("Auth Controller", () => {
         });
     });
 
-    describe("Logout", () => {
+    describe("Logout GET /api/auth/logout", () => {
         it("should log out the user successfully", async () => {
             const res = {
                 cookie: jest.fn(),

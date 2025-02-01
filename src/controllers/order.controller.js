@@ -20,14 +20,10 @@ export const getOrder = async (req, res) => {
 
     try {
         const order = await Order.findById(id);
-
-        if (!order) {
-            return res.status(404).json({ message: "Order not found" });
-        }
-        
-        res.status(200).json(order);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: "Server error", error: err.message });
+        if (!order) return res.status(404).json({ message: "Order not found" });
+        res.json(order);
+    } catch (error) {
+        res.status(500).json({ message: "Server error" });
     }
+    
 };
