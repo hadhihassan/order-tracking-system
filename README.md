@@ -53,6 +53,7 @@ MONGO_URL=your_mongodb_coonect_url
 
 JWT_SECRET_KEY=your_jwt_secret_key
 JWT_EXPIRES=your_jwt_token_expires_time
+NODE_ENV=development
 
 ```
 ## Testing Setup
