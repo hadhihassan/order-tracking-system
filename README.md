@@ -62,7 +62,7 @@ JWT_EXPIRES=your_jwt_token_expires_time
    cd order-tracking-system
 2. Install testing dependencies:
    ```bash
-    npm install --save-dev jest
+    npm install --save-dev jest supertest
 3. Run the tests:
     ```bash
     npm test
